@@ -17,8 +17,28 @@ public class PlayerCameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		//IsThrowing();
+        //IsThrowing();
+        Thrower();
 	}
+
+    void Thrower()
+    {
+        RaycastHit hit = new RaycastHit();
+        Vector3 hitPosition = Vector3.zero;
+
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = new Ray(transform.position, transform.forward);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, masks))
+            {
+                Vector3 hokanSize = GetComponent<Collider>().bounds.size;
+                //ball.position = hit.point * ( hit.normal * GetComponent<Collider>().bounds.size.y );
+                hit.collider.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+            Debug.DrawRay(ray.origin, ray.direction * 50, Color.red);
+        }
+    }
 
 	void IsThrowing()
 	{
